@@ -34,7 +34,7 @@ class: inverse, center, middle
 ```python
 from numpy.random import choice
 ```
-
+--
 
 ```python
 n_experiments = 100000
@@ -45,7 +45,7 @@ for i in range(n_experiments):
     overlap = len(set(shop_1) &amp; set(shop_2))
     overlaps[i] = overlap
 ```
-
+--
 
 ```python
 plt.hist(overlaps, bins = np.unique(overlaps))
@@ -83,14 +83,30 @@ _Combinatorics is the branch of mathematics studying the **enumeration**, **comb
 # Shuffling cards
 
  - In how many ways can the letters `cards` be ordered?
+ - `cards`, `carsd`, ..., `arscd`
  
- - `_____` `5____`
- - `a____` `54___`
- - `ar___`
- - `ars__`
- - `arsc_`
- - `arscr`
- 
+---
+
+# Shuffling cards
+
+
+`_ _ _ _ _`
+--
+  
+`a _ _ _ _` `\(\qquad 5\)`  
+--
+  
+`a d _ _ _` `\(\qquad 5\cdot 4\)`  
+--
+  
+`a d c _ _` `\(\qquad 5\cdot 4\cdot 3\)`  
+--
+  
+`a d c r _` `\(\qquad 5\cdot 4\cdot 3 \cdot 2\)`  
+--
+  
+`a d c r s` `\(\qquad 5\cdot 4\cdot 3 \cdot 2 \cdot 1\)`  
+
 ---
 
 # Permutations
@@ -124,16 +140,22 @@ background-size: contain
 
 In how many ways can we draw 100 unique cards from 2000 possible cards?
 
-`$$2000\cdot 1999\cdot 1998\cdot \ldots \cdot 1901$$`
-$$ = \frac{2000!}{1900!}$$
+--
 
+`$$2000\cdot 1999\cdot 1998\cdot \ldots \cdot 1901$$`
+--
+
+`$$= \frac{2000!}{1900!}$$`
+
+--
 But the order does not matter!
 
+--
 How many reorderings of these 100 cards are there? `\(100!\)`
 $$ \frac{2000!}{1900!\cdot100!} = {2000 \choose 100} $$
 
 ---
-
+class: inverse
 # Combinations
 
 Choosing `\(k\)` objects from `\(n\)` objects without repetition, order does not matter
@@ -144,22 +166,51 @@ $$ {n \choose k} = \frac{n!}{k!\cdot (n-k)!}$$
 `python`: "Why not write it yourself?"
 ]
 ---
+# Example
 
-Some examples of combinations
+Counting paths on a grid
 
-Safe combination is not a combination!
+```
+ ----------+     |..........     --+........
+ ..........|     |..........     ..+-+......
+ ..........|     +--+.......     ....+-+....
+ ..........|     ...|.......     ......+-+..
+ ..........|     ...|.......     ........|..
+ ..........|     ...+-------     ........+--
+```
+
+`$${15\choose 5}$$`
+
+.footnote[
+  Source: https://nbviewer.jupyter.org/github/norvig/pytudes/blob/master/ipynb/How%20To%20Count%20Things.ipynb
+]
+---
+
+# Example
+
+Number of combinations of a safe
+
+
 
 ---
 
 # Calculating overlap
 
   1) Let shop A choose 100 cards: `\({2000 \choose 100}\)`  
+--
 
   2a) Overlap of 0: `\({1900 \choose 100}\)`  
+--
+  
   2b) Overlap of 1: `\({100\choose 1}\cdot{1900 \choose 99}\)`  
+--
+  
   2c) Overlap of `\(n\)`: `\({100\choose n}\cdot{1900\choose 100-n}\)`  
-
+--
+  
   3) Number of ways of `\(n\)` overlap: `\({2000 \choose 100}\cdot{100\choose n}\cdot{1900 \choose 100-n}\)`  
+--
+  
   4) Probability of `\(n\)` overlap: `\({2000 \choose 100}\cdot{100\choose n}\cdot{1900 \choose 100-n} / {2000 \choose 100}{2000 \choose 100}\)`
 
 ---
@@ -170,6 +221,8 @@ from math import factorial
 def choose(n, k): 
     return factorial(n) // factorial(n-k) // factorial(k)
 ```
+
+--
 
 
 ```python
@@ -185,7 +238,7 @@ for overlap in range(100):
 
 ---
 
-class: inverse, center, bottom
+class: inverse, center, middle
 # Hypergeometric distribution&lt;sup&gt;1&lt;/sup&gt;
 
 .footnote[
@@ -194,24 +247,21 @@ class: inverse, center, bottom
 
 ---
 
-# Confusion matrix
+# Sending cards
 
-`$$\begin{bmatrix} a &amp; b\\ c &amp; d \end{bmatrix}$$`
-
-How many confusion matrices exist with 100 observations?
-
-100 stars, 3 bars
-
-`$$103\choose 3$$`
-
-
+  - 100 cards 
+  - 3 friends to send cards to
+  - Every friend should receive at least 1 card
+  - In how many ways can we send cards to friends?
 
 ---
 
 # Stars and bars
 
-★ | ★ ★ ★ |★ |★ ||||
-
+  - Denote every card with a star ★
+  - Put them in a row ★ ★ ★ ★ ★ ★ ★ ★ ★ ★
+  - We have to place 2 bars in the 99 spaces between the stars 
+  `$${99 \choose 2} = 4851$$`
 
 ---
 
@@ -219,9 +269,89 @@ How many confusion matrices exist with 100 observations?
 
 In how many ways can we select (with replacement) `\(n\)` observations from a dataset of `\(n\)` observations?
 
-`$$n^n$$`
+---
+
+# Bootstrapping: example
+                                                                                    
+In how many ways can we select (with replacement) 10 observations from a dataset of 10 observations?
+
+ | ★ ★ | | | ★ ★ ★ | ★ | ★ ★ | | | ★ ★
+
+[0, 2, 0, 0, 3, 1, 2, 0, 0, 2]
 
 ---
+
+# Bootstrapping: in general
+
+  - `\(n\)` stars (observations)
+  - `\(n-1\)` bars ()
+`$${n + (n-1) \choose n} = {2n-1 \choose n}$$`
+
+For 10 observations, 92378 possible samples!
+
+---
+
+# Python
+
+```python
+from itertools import combinations_with_replacement
+```
+
+--
+
+```python
+%time len(list(combinations_with_replacement(range(10), 10)))
+```
+```
+## CPU times: user 23.8 ms, sys: 679 µs, total: 24.5 ms
+## Wall time: 25.6 ms
+
+## 92378
+```
+  
+--
+  
+```python
+%time choose(2*10-1, 10)
+```
+```
+## CPU times: user 19 µs, sys: 4 µs, total: 23 µs
+## Wall time: 33.4 µs
+
+## 92378
+```
+
+---
+
+# Python
+```python
+%time len(list(combinations_with_replacement(range(15), 15)))
+```
+```
+## CPU times: user 12.4 s, sys: 4.3 s, total: 16.7 s
+## Wall time: 17.3 s
+
+## 77558760
+```
+
+--
+
+```python
+%time choose(2*15-1, 15)
+```
+```
+## CPU times: user 14 µs, sys: 5 µs, total: 19 µs
+## Wall time: 25.3 µs
+
+## 77558760
+```
+---
+
+# Chess
+
+  - 12 games of chess
+
+`$$(n^{-1}+1+n)^{12}$$`
     </textarea>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
