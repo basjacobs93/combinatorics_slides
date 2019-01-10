@@ -148,10 +148,14 @@ In how many ways can we draw 100 unique cards from 2000 possible cards?
 `$$= \frac{2000!}{1900!}$$`
 
 --
-But the order does not matter!
+But the order does not matter!  
 
 --
-How many reorderings of these 100 cards are there? `\(100!\)`
+How many reorderings of these 100 cards are there? 
+--
+`\(100!\)`
+
+--
 $$ \frac{2000!}{1900!\cdot100!} = {2000 \choose 100} $$
 
 ---
@@ -161,14 +165,10 @@ class: inverse
 Choosing `\(k\)` objects from `\(n\)` objects without repetition, order does not matter
 $$ {n \choose k} = \frac{n!}{k!\cdot (n-k)!}$$
 
-.footnote[
-`R`: `choose(n, k)`  
-`python`: "Why not write it yourself?"
-]
 ---
 # Example
 
-Counting paths on a grid
+Counting paths on a 10x5 grid
 
 ```
  ----------+     |..........     --+........
@@ -179,22 +179,28 @@ Counting paths on a grid
  ..........|     ...+-------     ........+--
 ```
 
+--
+
 `$${15\choose 5}$$`
+
+--
 
 .footnote[
   Source: https://nbviewer.jupyter.org/github/norvig/pytudes/blob/master/ipynb/How%20To%20Count%20Things.ipynb
 ]
 ---
 
+background-image: url(safe_image.jpg)
+background-size: contain
+
 # Example
-
-Number of combinations of a safe
-
 
 
 ---
 
 # Calculating overlap
+
+--
 
   1) Let shop A choose 100 cards: `\({2000 \choose 100}\)`  
 --
@@ -249,7 +255,7 @@ class: inverse, center, middle
 
 # Sending cards
 
-  - 100 cards 
+  - 10 cards 
   - 3 friends to send cards to
   - Every friend should receive at least 1 card
   - In how many ways can we send cards to friends?
@@ -259,24 +265,42 @@ class: inverse, center, middle
 # Stars and bars
 
   - Denote every card with a star ★
-  - Put them in a row ★ ★ ★ ★ ★ ★ ★ ★ ★ ★
-  - We have to place 2 bars in the 99 spaces between the stars 
-  `$${99 \choose 2} = 4851$$`
+--
+    
+  - Put them in a row  
+  
+★ ★ ★ ★ ★ ★ ★ ★ ★ ★
+  
+--
+
+  - Place two bars between the stars  
+
+★ ★ ★|★ ★ ★ ★ ★|★ ★
+
+  
+--
+    
+  `\({9 \choose 2} = 36\)` ways of sending cards
 
 ---
 
 # Bootstrapping
 
-In how many ways can we select (with replacement) `\(n\)` observations from a dataset of `\(n\)` observations?
+In how many different ways can we select (with replacement) `\(n\)` observations from a dataset of `\(n\)` observations, where order doesn't matter?
 
 ---
 
 # Bootstrapping: example
                                                                                     
-In how many ways can we select (with replacement) 10 observations from a dataset of 10 observations?
+In how many different ways can we select (with replacement) 10 observations from a dataset of 10 observations, where order doesn't matter?
 
+--
+  
  | ★ ★ | | | ★ ★ ★ | ★ | ★ ★ | | | ★ ★
-
+--
+  
+  
+  
 [0, 2, 0, 0, 3, 1, 2, 0, 0, 2]
 
 ---
@@ -284,7 +308,7 @@ In how many ways can we select (with replacement) 10 observations from a dataset
 # Bootstrapping: in general
 
   - `\(n\)` stars (observations)
-  - `\(n-1\)` bars ()
+  - `\(n-1\)` bars (we draw `\(n\)` observations)
 `$${n + (n-1) \choose n} = {2n-1 \choose n}$$`
 
 For 10 observations, 92378 possible samples!
