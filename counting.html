@@ -4,6 +4,7 @@
     <title>Counting things</title>
     <meta charset="utf-8">
     <meta name="author" content="Bas Jacobs" />
+    <meta name="date" content="2019-11-01" />
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
   </head>
@@ -13,7 +14,7 @@ class: center, middle, inverse, title-slide
 
 # Counting things
 ### Bas Jacobs
-### 2019/01/11
+### 11/01/2019
 
 ---
 
@@ -138,6 +139,8 @@ background-size: contain
 
 ---
 
+# Choosing cards for one store
+
 In how many ways can we draw 100 unique cards from 2000 possible cards?
 
 --
@@ -162,7 +165,7 @@ $$ \frac{2000!}{1900!\cdot100!} = {2000 \choose 100} $$
 class: inverse
 # Combinations
 
-Choosing `\(k\)` objects from `\(n\)` objects without repetition, order does not matter
+Choosing `\(k\)` objects from a set of `\(n\)` objects without repetition, order does not matter
 $$ {n \choose k} = \frac{n!}{k!\cdot (n-k)!}$$
 
 ---
@@ -181,12 +184,12 @@ Counting paths on a 10x5 grid
 
 --
 
-`$${15\choose 5}$$`
+`\({15\choose 5}\)`
 
 --
 
 .footnote[
-  Source: https://nbviewer.jupyter.org/github/norvig/pytudes/blob/master/ipynb/How%20To%20Count%20Things.ipynb
+  Source: Peter Norvig's _pytudes_ - _How To Count Things_ 
 ]
 ---
 
@@ -217,7 +220,7 @@ background-size: contain
   3) Number of ways of `\(n\)` overlap: `\({2000 \choose 100}\cdot{100\choose n}\cdot{1900 \choose 100-n}\)`  
 --
   
-  4) Probability of `\(n\)` overlap: `\({2000 \choose 100}\cdot{100\choose n}\cdot{1900 \choose 100-n} / {2000 \choose 100}{2000 \choose 100}\)`
+  4) Probability of `\(n\)` overlap: `$$\frac{{2000 \choose 100}{100\choose n}{1900 \choose 100-n} }{ {2000 \choose 100}{2000 \choose 100} }$$`
 
 ---
 
@@ -255,7 +258,7 @@ class: inverse, center, middle
 
 # Sending cards
 
-  - 10 cards 
+  - 10 identical cards 
   - 3 friends to send cards to
   - Every friend should receive at least 1 card
   - In how many ways can we send cards to friends?
@@ -273,8 +276,10 @@ class: inverse, center, middle
   
 --
 
-  - Place two bars between the stars  
-
+  - Place two bars between the stars
+--
+  
+  
 ★ ★ ★|★ ★ ★ ★ ★|★ ★
 
   
@@ -286,13 +291,13 @@ class: inverse, center, middle
 
 # Bootstrapping
 
-In how many different ways can we select (with replacement) `\(n\)` observations from a dataset of `\(n\)` observations, where order doesn't matter?
+In how many different ways can we select **with replacement** `\(n\)` observations from a dataset of `\(n\)` observations, where **order doesn't matter**?
 
 ---
 
 # Bootstrapping: example
                                                                                     
-In how many different ways can we select (with replacement) 10 observations from a dataset of 10 observations, where order doesn't matter?
+In how many different ways can we select **with replacement** 10 observations from a dataset of 10 observations, where **order doesn't matter**?
 
 --
   
@@ -303,6 +308,11 @@ In how many different ways can we select (with replacement) 10 observations from
   
 [0, 2, 0, 0, 3, 1, 2, 0, 0, 2]
 
+
+--
+  
+`$${19\choose 10} = 92378$$`
+
 ---
 
 # Bootstrapping: in general
@@ -310,8 +320,6 @@ In how many different ways can we select (with replacement) 10 observations from
   - `\(n\)` stars (observations)
   - `\(n-1\)` bars (we draw `\(n\)` observations)
 `$${n + (n-1) \choose n} = {2n-1 \choose n}$$`
-
-For 10 observations, 92378 possible samples!
 
 ---
 
@@ -371,11 +379,9 @@ from itertools import combinations_with_replacement
 ```
 ---
 
-# Chess
+class: center, middle
 
-  - 12 games of chess
-
-`$$(n^{-1}+1+n)^{12}$$`
+# Thank you!
     </textarea>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
 <script>var slideshow = remark.create({
